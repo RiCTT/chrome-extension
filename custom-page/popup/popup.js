@@ -27,6 +27,27 @@ goBack.addEventListener('click', gotoIndex)
 
 goSettingsBtn.addEventListener('click', gotoSettings)
 
+styleInput.addEventListener('keydown', function (e) {
+  console.log(e)
+  console.log(e.keyCode)
+  console.log(this)
+  if (e.keyCode === 9 || e.key === 'Tab') {
+    // solution 1
+    const value = '\t'
+    document.execCommand("insertText", false, value);
+    
+    // solution 2
+    // have some problem, like after set value, undo is not work
+    // https://stackoverflow.com/questions/44471699/how-to-make-undo-work-in-an-html-textarea-after-setting-the-value
+    // explain
+    // const start = this.selectionStart
+    // const end = this.selectionEnd
+    // this.value = this.value.substring(0, start) + value + this.value.substring(end)
+
+    e.preventDefault()
+  }
+})
+
 saveBtn.addEventListener('click', () => {
   const host = hostInput.value
   const style = styleInput.value

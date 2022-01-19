@@ -7,6 +7,8 @@ const cancelBtn = document.querySelector('#cancel')
 const addBtn = document.querySelector('#add')
 const hostInput = document.querySelector('#hostInput')
 const styleInput = document.querySelector('#styleInput')
+const exportBtn = document.querySelector('#export')
+const importBtn = document.querySelector('#import')
 
 let _currentConfigList = []
 let _currentEditConfig = null
@@ -25,12 +27,52 @@ getConfigList()
 
 goBack.addEventListener('click', gotoIndex)
 
+const funDownload = (content, fileName) => {
+  const a = document.createElement('a')
+  a.download = fileName
+  a.style.display = 'none'
+  const blob = new Blob([content])
+  a.href = URL.createObjectURL(blob)
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
+
+exportBtn.addEventListener('click', (e) => {
+  getConfigList()
+    .then(res => {
+      const content = JSON.stringify(res, null, 4)
+      funDownload(content, 'CustomExport.json')
+    })
+})
+
+importBtn.addEventListener('click', (e) => {
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.style.display = 'none'
+  document.body.appendChild(input)
+  input.addEventListener('change', (ev) => {
+    const target = ev.target
+    const file = target.files[0]
+    const reader = new FileReader()
+    reader.onload = function () {
+      const content = JSON.parse(this.result)
+      if (Array.isArray(content) === false) {
+        console.error('Import error!')
+      } else {
+        console.log('Import success!')
+        updateStorage('configList', content)
+        generateConfigList(content)
+      }
+    }
+    reader.readAsText(file)
+  })
+  input.click()
+})
+
 goSettingsBtn.addEventListener('click', gotoSettings)
 
 styleInput.addEventListener('keydown', function (e) {
-  console.log(e)
-  console.log(e.keyCode)
-  console.log(this)
   if (e.keyCode === 9 || e.key === 'Tab') {
     // solution 1
     const value = '  '

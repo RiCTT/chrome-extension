@@ -48,6 +48,21 @@
   transition: left 0.3s;
 }
 
+.config-btn-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.config-btn-list .config-btn {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.config-btn-list .config-btn:last-child {
+  margin-right: 0;
+}
+
+.config-btn,
 .config-add-btn {
   font-size: 16px;
   border: 1px solid #ddd;

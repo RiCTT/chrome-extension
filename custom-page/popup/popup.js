@@ -33,7 +33,7 @@ styleInput.addEventListener('keydown', function (e) {
   console.log(this)
   if (e.keyCode === 9 || e.key === 'Tab') {
     // solution 1
-    const value = '\t'
+    const value = '  '
     document.execCommand("insertText", false, value);
     
     // solution 2
